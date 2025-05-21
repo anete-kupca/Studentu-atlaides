@@ -7,45 +7,80 @@ from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time
 
-options = webdriver.ChromeOptions()
-options.add_argument('--headless')
-options.add_argument('--no-sandbox')
-options.add_argument('--disable-dev-shm-usage')
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+def iegut_atlaides():
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-driver.get("https://isic.lv/lv/atlaides/")
+    driver.get("https://isic.lv/lv/atlaides/")
+    scroll_pause = 1
+    last_height = driver.execute_script("return document.body.scrollHeight")
+    for _ in range(10):
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(scroll_pause)
+        new_height = driver.execute_script("return document.body.scrollHeight")
+        if new_height == last_height:
+            break
+        last_height = new_height
 
-scroll_pause = 1
-last_height = driver.execute_script("return document.body.scrollHeight")
-for i in range(10):
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    time.sleep(scroll_pause)
-    new_height = driver.execute_script("return document.body.scrollHeight")
-    if new_height == last_height:
-        break
-    last_height = new_height
+    discounts = {}
+    try:
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'discount-block-item')))
+        html = driver.page_source
+        soup = BeautifulSoup(html, 'html.parser')
+        items = soup.find_all('a', class_='discount-block-item')
 
-atlaides_dict = {}
+        for i in items:
+            title = i.find('span', class_='title')
+            discount_span = i.find('span', class_='discount')
+            discount = discount_span.get('data-discount') if discount_span else ""
 
-try:
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'discount-block-item')))
-    html = driver.page_source
-    soup = BeautifulSoup(html, 'html.parser')
-    items = soup.find_all('a', class_='discount-block-item')
+            if title:
+                name = title.text.strip()
+                discounts[name.lower()] = discount
 
-    print("Atlaides:")
-    for i in items:
-        t = i.find('span', class_='title')
-        discount_span = i.find('span', class_='discount')
-        discount = discount_span.get('data-discount') if discount_span else ""
-        if t:
-            print("-", t.text.strip())
-            name = t.text.strip()
-            atlaides_dict[name] = discount.strip() if discount else "Nav norādīts"
-except:
-    print("Neizdevās ielādēt lapu")
+    except Exception as e:
+        print("Neizdevās ielādēt lapu:", e)
+    finally:
+        driver.quit()
 
-driver.quit()
+    return discounts
 
-for nosaukums, atlaide in atlaides_dict.items():
-    print(f"{nosaukums}: {atlaide}")
+def meklet_atlaidi(discounts):
+    nosaukums = input("Ievadi uzņēmuma nosaukumu: ").strip().lower()
+    if nosaukums in discounts:
+        print(f"{nosaukums.title()} – atlaide: {discounts[nosaukums]}")
+    else:
+        print("Uzņēmums netika atrasts.")
+
+def paradit_visas(discounts):
+    print("\nVisas atlaides:")
+    for name, discount in discounts.items():
+        print(f"{name.title()} – {discount}")
+    print()
+
+def iziet():
+    print("Programma tiek izbeigta. Uz redzēšanos!")
+
+if __name__ == "__main__":
+    atlaides = iegut_atlaides()
+
+    while True:
+        print("\n--- Izvēlne ---")
+        print("1 - Meklēt atlaidi pēc uzņēmuma nosaukuma")
+        print("2 - Apskatīt visas atlaides")
+        print("3 - Iziet")
+
+        izvele = input("Izvēlies darbību (1/2/3): ").strip()
+
+        if izvele == '1':
+            meklet_atlaidi(atlaides)
+        elif izvele == '2':
+            paradit_visas(atlaides)
+        elif izvele == '3':
+            iziet()
+            break
+        else:
+            print("Nederīga izvēle, mēģini vēlreiz")
