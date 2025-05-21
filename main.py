@@ -50,8 +50,15 @@ def iegut_atlaides():
 
 def meklet_atlaidi(discounts):
     nosaukums = input("Ievadi uzņēmuma nosaukumu: ").strip().lower()
-    if nosaukums in discounts:
-        print(f"{nosaukums.title()} – atlaide: {discounts[nosaukums]}")
+    atrasti = {}
+    for name, discount in discounts.items():
+        if nosaukums in name:
+            atrasti[name] = discount
+
+    if atrasti:
+        print("\nRezultāti:")
+        for name, discount in atrasti.items():
+            print(f"{name.title()} – atlaide: {discount}")
     else:
         print("Uzņēmums netika atrasts.")
 
