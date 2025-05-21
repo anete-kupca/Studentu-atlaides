@@ -22,6 +22,7 @@ Programmas mērķis ir prast automātiski nolasīt ISIC mājaslapā pieejamo atl
 - Izvada katra uzņēmuma nosaukumu konsolē un izvada konsolē atlaides apjomu
 - Saglabā atlaižu datus vārdnīcas formātā
 - Ļauj lietotājam ievadīt uzņēmuma nosaukumu un uzzināt pieejamo atlaidi ja tāda ir
+- pievienoju funkcijai iespēju ļaut meklēšanu veikt pēc daļēja nosaukuma(piemēram ar mazajiem burtim vai kādu gramatisku kļūdu)
 
 ## Iespējamie uzlabojumi
 
