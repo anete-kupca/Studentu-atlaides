@@ -19,11 +19,11 @@ Programmas mērķis ir prast automātiski nolasīt ISIC mājaslapā pieejamo atl
 
 - Atver ISIC atlaižu lapu
 - Nolasa informāciju par katru uzņēmumu, kam pieejama atlaide
-- Izvada katra uzņēmuma nosaukumu konsolē un Izvada konsolē atlaides apjomu
--  Saglabā atlaižu datus vārdnīcas formātā
+- Izvada katra uzņēmuma nosaukumu konsolē un izvada konsolē atlaides apjomu
+- Saglabā atlaižu datus vārdnīcas formātā
+- Ļauj lietotājam ievadīt uzņēmuma nosaukumu un uzzināt pieejamo atlaidi ja tāda ir
 
 ## Iespējamie uzlabojumi
 
-- Ļauj lietotājam ievadīt uzņēmuma nosaukumu un uzzināt pieejamo atlaidi ja tāda ir
 - Saglabā datus excel tabulā
   
