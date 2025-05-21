@@ -25,6 +25,8 @@ for i in range(10):
         break
     last_height = new_height
 
+atlaides_dict = {}
+
 try:
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'discount-block-item')))
     html = driver.page_source
@@ -34,9 +36,16 @@ try:
     print("Atlaides:")
     for i in items:
         t = i.find('span', class_='title')
+        discount_span = i.find('span', class_='discount')
+        discount = discount_span.get('data-discount') if discount_span else ""
         if t:
             print("-", t.text.strip())
+            name = t.text.strip()
+            atlaides_dict[name] = discount.strip() if discount else "Nav norādīts"
 except:
     print("Neizdevās ielādēt lapu")
 
 driver.quit()
+
+for nosaukums, atlaide in atlaides_dict.items():
+    print(f"{nosaukums}: {atlaide}")
