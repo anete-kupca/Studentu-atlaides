@@ -1,25 +1,29 @@
-# Studentu-atlaides
-Atrodi, kur vari dabūt studentu atlaidīti
+# ISIC atlaides — tīmekļa skrāpētājs
 
-# Studentu atlaides — ISIC.lv skrāperis
+## Problēmas apraksts
 
-## Projekta uzdevums
+Mums nepieciešams ātrs veids, kā pārskatīt visus pieejamos piedāvājumus, kur varam izmantot studentu atlaižu karti. Vēlamies arī iespēju ātri pārbaudīt vai kādam konkrētam uzņēmumam ir pieejama atlaide vai nē
 
-Projekta mērķis ir izveidot Python programmu, kas automātiski iegūst informāciju par studentiem paredzētajām atlaidēm no vietnes [isic.lv/lv/atlaides](https://isic.lv/lv/atlaides/). Programma automātiski apstrādā datus un saglabā tos strukturētā JSON formātā.
+## Mērķis
+
+Programmas mērķis ir prast automātiski nolasīt ISIC mājaslapā pieejamo atlaižu informāciju — uzņēmumu nosaukumus un attiecīgās atlaides. Vēlamies arī lai būtu iespēja to izvadīt pārskatāmā veidā 
 
 ## Izmantotās Python bibliotēkas
 
-- `requests`: HTTP pieprasījumu veikšanai, lai ielādētu tīmekļa lapas saturu.
-- `beautifulsoup4`: HTML dokumentu parsēšanai un vajadzīgo elementu izgūšanai no lapas.
+- `beautifulsoup4`: analizē HTML saturu un ļauj viegli atrast vajadzīgos elementus lapā
+-  `selenium`: ļauj mijiedarboties ar mājaslapu
+-  `webdriver_manager`: sagatavo visu, kas vajadzīgs, lai selenium varētu palaist pārlūku
+-  `time`: ļauj uzlikt pauzi starp darbībām, lai mājaslapa paspēj ielādēties
 
-## Izmantotās datu struktūras
+## Programmas darbības apraksts
 
-Skripts izmanto Python vārdnīcu (`dict`) un sarakstu (`list`) kombināciju, lai saglabātu atlaides ar nosaukumu un aprakstu:
-```python
-[
-  {
-    "nosaukums": "McDonald’s",
-    "apraksts": "15% atlaide uz visiem produktiem ar ISIC karti."
-  },
-  ...
-]
+- Atver ISIC atlaižu lapu
+- Nolasa informāciju par katru uzņēmumu, kam pieejama atlaide
+- Izvada katra uzņēmuma nosaukumu konsolē
+
+## Iespējamie uzlabojumi
+
+- Izvada konsolē atlaides apjomu
+- Saglabā atlaižu datus vārdnīcas formātā
+- Ļauj lietotājam ievadīt uzņēmuma nosaukumu un uzzināt pieejamo atlaidi ja tāda ir
+- Saglabā datus excel tabulā
